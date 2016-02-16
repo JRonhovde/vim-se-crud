@@ -12,18 +12,17 @@ function! SycamoreCrud(...)
     let quotes = '"'."'"
 
     let objName = matchstr(getline(current), '\v\zs\$[^,) =>]+\ze *\) *\{') 
-    if(len(objName) == 0)
-        finish
-    endif
-    let current += 1
-
-    while current <= stop
-        let leader = 'silent! ' . current . ',' . current
-        let line = getline(current)
-        execute leader . 's/\vmysql_result\([^'.quotes.']+['.quotes.'](.*)['.quotes.']/'.objName.'->get("\L\1"/'
-        "echo leader . 's/\vmysql_result([^'.quotes.']+'.quotes.'(.*)'.quotes.'/'.objName.'->get("\1"/'
+    if(len(objName) > 0)
         let current += 1
-    endwhile
+
+        while current <= stop
+            let leader = 'silent! ' . current . ',' . current
+            let line = getline(current)
+            execute leader . 's/\vmysql_result\([^'.quotes.']+['.quotes.'](.*)['.quotes.']/'.objName.'->get("\L\1"/'
+            "echo leader . 's/\vmysql_result([^'.quotes.']+'.quotes.'(.*)'.quotes.'/'.objName.'->get("\1"/'
+            let current += 1
+        endwhile
+    endif
 endfunction
 
 command! -range -nargs=* SycamoreCrud call SycamoreCrud(<f-args>)
