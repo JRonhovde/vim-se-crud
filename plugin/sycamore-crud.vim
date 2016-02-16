@@ -6,6 +6,10 @@ endif
 let g:loaded_sycamore_crud_plugin = 1
 
 function! SycamoreCrud(...)
+    let objName = ''
+    if a:0 ==  1
+        let objName = a:1
+    endif
     let start = line("'<")
     let stop = line("'>")
     let current = start
@@ -21,9 +25,14 @@ function! SycamoreCrud(...)
         endif
     endfor
 
-    let objName = matchstr(getline(current), '\v\zs\$[^,) =>]+\ze *\) *\{') 
     if(len(objName) == 0)
-        let objName = '$crudObj'
+        let objName = matchstr(getline(current), '\v\zs\$[^,) =>]+\ze *\) *\{') 
+        if(len(objName) == 0)
+            let objName = '$crudObj'
+        endif
+    endif
+    if objName[0] != '$'
+        let objName = '$'.objName
     endif
     let current += 1
 
