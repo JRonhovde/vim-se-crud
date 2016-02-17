@@ -34,7 +34,6 @@ function! SycamoreCrud(...)
     if objName[0] != '$'
         let objName = '$'.objName
     endif
-    let current += 1
 
     while current <= stop
         let leader = 'silent! ' . current . ',' . current
