@@ -26,7 +26,7 @@ function! SycamoreCrud(...)
     endfor
 
     if(len(objName) == 0)
-        let objName = matchstr(getline(current), '\v\zs\$[^,) =>]+\ze *\) *\{') 
+        let objName = matchstr(getline(current), '\vforeach\(.{-}\zs\$[^,) =>]+\ze *\) *\{') 
         if(len(objName) == 0)
             let objName = '$crudObj'
         endif
